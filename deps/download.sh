@@ -6,7 +6,7 @@ test -d x264 || git clone --depth 1 -b stable https://code.videolan.org/videolan
 test -d ffmpeg || git clone --depth 1 -b n8.0 https://git.ffmpeg.org/ffmpeg.git ffmpeg
 if [ "$TARGET_OS" == "linux" ]; then
     test -d nv-codec-headers || git clone --depth 1 https://git.videolan.org/git/ffmpeg/nv-codec-headers.git
-    test -d libva || git clone --depth 1 -b 2.22.0 https://github.com/intel/libva
+    test -d libva || git clone --depth 1 -b 2.15.0 https://github.com/intel/libva
 fi
 if [ "$TARGET_OS" == "windows" ]; then
     test -d nv-codec-headers || git clone --depth 1 https://git.videolan.org/git/ffmpeg/nv-codec-headers.git
