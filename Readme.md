@@ -20,9 +20,9 @@ After unzipping, run:
 * [feat: support stylus pressure in macos](https://github.com/H-M-H/Weylus/pull/289)
 * [~~Always render square QR code so it can be read~~](https://github.com/H-M-H/Weylus/pull/236) merged by master
 * [~~fix scroll direction problems in uinput~~](https://github.com/H-M-H/Weylus/pull/215) merged by master 
-* [~~Use WinAPI to simulate pointermovements](https://github.com/H-M-H/Weylus/pull/128) merged by master
-* [~~Modify write_video_packet prototype](https://github.com/H-M-H/Weylus/pull/273) merged by master
-* [Linux build fixes](https://github.com/electronstudio2/Weylus/tree/build-fixes)
+* [~~Use WinAPI to simulate pointermovements~~](https://github.com/H-M-H/Weylus/pull/128) merged by master
+* [~~Modify write_video_packet prototype~~](https://github.com/H-M-H/Weylus/pull/273) merged by master
+* [Build fixes](https://github.com/electronstudio2/Weylus/tree/build-fixes)
 * [~~Create helper window in main thread~~](https://github.com/H-M-H/Weylus/pull/282) merged by master
 
 As you can see, we have been quite successful at getting patches upstreamed!  There are
@@ -31,6 +31,10 @@ lack of testing:
 
 * [new frontend: click-to-reconnect + accurate coordinates on HiDPI pad](https://github.com/H-M-H/Weylus/pull/290)
 * [feat: virtual keyboard](https://github.com/H-M-H/Weylus/pull/291)
+
+## Known bugs
+
+On Wayland, screen scale must be 100%.
 
 
 ![Build](https://github.com/H-M-H/Weylus/workflows/Build/badge.svg)
