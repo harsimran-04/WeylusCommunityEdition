@@ -38,7 +38,7 @@ jobs:
       - name: Upload 7zip
         uses: actions/upload-artifact@v4
         with:
-          name: weylus
+          name: weylus_windows
           path: weylus_windows.7z
 
   build-linux:
@@ -49,14 +49,14 @@ jobs:
     - name: Build
       run: |
         sudo apt-get update
-        sudo apt-get install -y libx11-dev libxext-dev libxft-dev libxinerama-dev libxcursor-dev libxrender-dev libxfixes-dev libxtst-dev libxrandr-dev libxcomposite-dev libxi-dev libxv-dev autoconf libtool-bin nvidia-cuda-dev pkg-config libdrm-dev libpango1.0-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libdbus-1-dev libavcodec-dev libavformat-dev libswscale-dev libva-dev libavdevice-dev libavfilter-dev libpostproc-dev libx264-dev
+        sudo apt-get install -y libx11-dev libxext-dev libxft-dev libxinerama-dev libxcursor-dev libxrender-dev libxfixes-dev libxtst-dev libxrandr-dev libxcomposite-dev libxi-dev libxv-dev autoconf libtool-bin nvidia-cuda-dev pkg-config libdrm-dev libpango1.0-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libdbus-1-dev libavcodec-dev libavformat-dev libswscale-dev libva-dev libavdevice-dev libavfilter-dev libpostproc-dev libx264-dev libxkbcommon libxkbcommon-devel libxcb-dri3-0  libxcb-dri3-dev
         RUSTFLAGS="$RUSTFLAGS -A dead_code -A unused_imports" cargo b --features ffmpeg-system --release
         mv target/release/weylus .
         tar -czvf weylus_linux.tar.gz weylus
     - name: Upload tar
       uses: actions/upload-artifact@v4
       with:
-        name: weylus
+        name: weylus_linux
         path: weylus_linux.tar.gz
 
   build-macos:
@@ -94,7 +94,7 @@ jobs:
       - name: Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: weylus
+          name: ${{ env.MACOS_BUILD_NAME }}
           path: target/release/bundle/osx/${{ env.MACOS_BUILD_NAME }}.zip
       - name: ArtifactsDebug
         if: failure()
