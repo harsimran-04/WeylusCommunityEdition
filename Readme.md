@@ -1,5 +1,9 @@
 # Weylus Community Edition
 
+## New: Discord
+
+[Unofficial room to chat other Weylus users](https://discord.gg/cU88m9ubqP)
+
 ## Flatpak now available
 
 https://flathub.org/apps/io.github.electronstudio.WeylusCommunityEdition
@@ -12,15 +16,21 @@ After unzipping, run:
 
 ## Community Edition adds these patches
 
-* Commits from Weylus master that improve Wayland compatibility.
-* [bunch of improvements: MacOS Stylus, Virtual Key, Reconnect, etc.](https://github.com/H-M-H/Weylus/pull/276)
-* [Always render square QR code so it can be read](https://github.com/H-M-H/Weylus/pull/236)
-* [fix scroll direction problems in uinput](https://github.com/H-M-H/Weylus/pull/215)
-* [Use WinAPI to simulate pointermovements](https://github.com/H-M-H/Weylus/pull/128)
-* [Modify write_video_packet prototype](https://github.com/H-M-H/Weylus/pull/273)
+* Commits from Weylus master that improve Wayland and iOS compatibility.
+* [feat: support stylus pressure in macos](https://github.com/H-M-H/Weylus/pull/289)
+* [~~Always render square QR code so it can be read~~](https://github.com/H-M-H/Weylus/pull/236) merged by master
+* [~~fix scroll direction problems in uinput~~](https://github.com/H-M-H/Weylus/pull/215) merged by master 
+* [~~Use WinAPI to simulate pointermovements](https://github.com/H-M-H/Weylus/pull/128) merged by master
+* [~~Modify write_video_packet prototype](https://github.com/H-M-H/Weylus/pull/273) merged by master
 * [Linux build fixes](https://github.com/electronstudio2/Weylus/tree/build-fixes)
-* [Create helper window in main thread](https://github.com/H-M-H/Weylus/pull/282)
+* [~~Create helper window in main thread~~](https://github.com/H-M-H/Weylus/pull/282) merged by master
 
+As you can see, we have been quite successful at getting patches upstreamed!  There are
+still these two remaining but we arent currently including them due to merge conflicts and
+lack of testing:
+
+* [new frontend: click-to-reconnect + accurate coordinates on HiDPI pad](https://github.com/H-M-H/Weylus/pull/290)
+* [feat: virtual keyboard](https://github.com/H-M-H/Weylus/pull/291)
 
 
 ![Build](https://github.com/H-M-H/Weylus/workflows/Build/badge.svg)
