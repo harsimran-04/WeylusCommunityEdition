@@ -9,8 +9,6 @@ on:
     branches: [ master ]
 
 
-https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-8.0-full_build-shared.7z
-
 
 jobs:
   build-windows:
