@@ -38,13 +38,13 @@ jobs:
           cp .\target\release\weylus.exe weylus
           7z a weylus_windows.7z weylus\*
       - name: Upload 7zip
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: weylus
           path: weylus_windows.7z
 
   build-linux:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - uses: actions-rust-lang/setup-rust-toolchain@v1
@@ -55,7 +55,7 @@ jobs:
         mv target/release/weylus .
         tar -czvf weylus_linux.tar.gz weylus
     - name: Upload tar
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: weylus
         path: weylus_linux.tar.gz
@@ -63,7 +63,7 @@ jobs:
   build-macos:
     strategy:
       matrix:
-        os: [ macos-latest, macos-13 ] # -latest if for Apple Silicon, -13 is for Intel
+        os: [ macos-latest, macos-15-intel ] # -latest if for Apple Silicon, -13 is for Intel
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
@@ -93,7 +93,7 @@ jobs:
           echo "MACOS_BUILD_NAME=$MACOS_BUILD_NAME" >> $GITHUB_ENV
           cd target/release/bundle/osx/ && zip -r ${MACOS_BUILD_NAME}.zip Weylus.app
       - name: Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: weylus
           path: target/release/bundle/osx/${{ env.MACOS_BUILD_NAME }}.zip
