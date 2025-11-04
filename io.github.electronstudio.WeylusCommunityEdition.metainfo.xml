@@ -47,6 +47,11 @@
     </developer>
 
     <releases>
+        <release version="2025.11.4" date="2025.11.4">
+            <description>
+                <p>Lots of fixes from upstream.</p>
+            </description>
+        </release>
         <release version="2024.8.3" date="2024-8-3">
             <description>
                 <p>Increase bundled ffmpeg to 7.0 so it will build on macos.</p>
