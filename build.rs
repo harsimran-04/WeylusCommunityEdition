@@ -113,6 +113,7 @@ fn main() {
         } else {
             "static"
         };
+    println!("cargo:rustc-link-lib={}=xml2", ffmpeg_link_kind);
     println!("cargo:rustc-link-lib={}=avdevice", ffmpeg_link_kind);
     println!("cargo:rustc-link-lib={}=avformat", ffmpeg_link_kind);
     println!("cargo:rustc-link-lib={}=avfilter", ffmpeg_link_kind);
@@ -120,7 +121,9 @@ fn main() {
     println!("cargo:rustc-link-lib={}=swresample", ffmpeg_link_kind);
     println!("cargo:rustc-link-lib={}=swscale", ffmpeg_link_kind);
     println!("cargo:rustc-link-lib={}=avutil", ffmpeg_link_kind);
-    println!("cargo:rustc-link-lib={}=x264", ffmpeg_link_kind);
+    println!("cargo:rustc-link-lib={}=x264", ffmpeg_link_kind); // libtesseract-dev libopenh264-dev libaom-dev 
+   
+
     if enable_libnpp {
         if let Ok(lib_paths) = env::var("LIBRARY_PATH") {
             for lib_path in lib_paths.split(':') {
