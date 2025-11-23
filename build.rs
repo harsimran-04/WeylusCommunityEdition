@@ -108,8 +108,7 @@ fn main() {
     let ffmpeg_link_kind =
         // https://github.com/rust-lang/rust/pull/72785
         // https://users.rust-lang.org/t/linking-on-windows-without-wholearchive/49846/3
-        if cfg!(target_os = "windows") ||
-            env::var("CARGO_FEATURE_FFMPEG_SYSTEM").is_ok() {
+        if cfg!(target_os = "windows") {
             "dylib"
         } else {
             "static"
