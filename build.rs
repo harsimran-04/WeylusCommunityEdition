@@ -194,7 +194,9 @@ fn linux() {
     println!("cargo:rustc-link-lib=X11-xcb");
     println!("cargo:rustc-link-lib=xcb");
 
+    println!("cargo:rustc-link-lib={}=soxr", "dylib");
     println!("cargo:rustc-link-lib={}=z", "dylib");
+    println!("cargo:rustc-link-lib={}=lzma", "dylib");
     println!("cargo:rustc-link-lib={}=openh264", "dylib");
     println!("cargo:rustc-link-lib={}=vdpau", "dylib");
     println!("cargo:rustc-link-lib={}=gcrypt", "dylib");
