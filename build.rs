@@ -117,6 +117,9 @@ fn main() {
     println!("cargo:rustc-link-lib={}=vdpau", "dylib");
     println!("cargo:rustc-link-lib={}=gcrypt", "dylib");
      println!("cargo:rustc-link-lib={}=mfx", "dylib");
+    println!("cargo:rustc-link-lib={}=openmtp", "dylib");
+    println!("cargo:rustc-link-lib={}=ssl", "dylib");
+    println!("cargo:rustc-link-lib={}=crypto", "dylib");
     // println!("cargo:rustc-link-lib={}=xml2", ffmpeg_link_kind);
     // println!("cargo:rustc-link-lib={}=twolame", ffmpeg_link_kind); 
     // println!("cargo:rustc-link-lib={}=aom", ffmpeg_link_kind); 
