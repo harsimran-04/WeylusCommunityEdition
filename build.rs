@@ -201,7 +201,6 @@ fn linux() {
     println!("cargo:rustc-link-lib={}=openmpt", "dylib");
     println!("cargo:rustc-link-lib={}=ssl", "dylib");
     println!("cargo:rustc-link-lib={}=crypto", "dylib");
-    // println!("cargo:rustc-link-lib={}=xml2", ffmpeg_link_kind);
-    // println!("cargo:rustc-link-lib={}=twolame", ffmpeg_link_kind); 
-    // println!("cargo:rustc-link-lib={}=aom", ffmpeg_link_kind); 
+    println!("cargo:rustc-link-lib={}=opencl", "dylib");
+
 }
