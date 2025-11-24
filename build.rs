@@ -113,16 +113,7 @@ fn main() {
         } else {
             "static"
         };
-    println!("cargo:rustc-link-lib={}=z", "dylib");
-    println!("cargo:rustc-link-lib={}=vdpau", "dylib");
-    println!("cargo:rustc-link-lib={}=gcrypt", "dylib");
-     println!("cargo:rustc-link-lib={}=mfx", "dylib");
-    println!("cargo:rustc-link-lib={}=openmtp", "dylib");
-    println!("cargo:rustc-link-lib={}=ssl", "dylib");
-    println!("cargo:rustc-link-lib={}=crypto", "dylib");
-    // println!("cargo:rustc-link-lib={}=xml2", ffmpeg_link_kind);
-    // println!("cargo:rustc-link-lib={}=twolame", ffmpeg_link_kind); 
-    // println!("cargo:rustc-link-lib={}=aom", ffmpeg_link_kind); 
+
     println!("cargo:rustc-link-lib={}=avdevice", ffmpeg_link_kind);
     println!("cargo:rustc-link-lib={}=avformat", ffmpeg_link_kind);
     println!("cargo:rustc-link-lib={}=avfilter", ffmpeg_link_kind);
@@ -202,4 +193,15 @@ fn linux() {
     println!("cargo:rustc-link-lib=xcb-dri3");
     println!("cargo:rustc-link-lib=X11-xcb");
     println!("cargo:rustc-link-lib=xcb");
+
+    println!("cargo:rustc-link-lib={}=z", "dylib");
+    println!("cargo:rustc-link-lib={}=vdpau", "dylib");
+    println!("cargo:rustc-link-lib={}=gcrypt", "dylib");
+    println!("cargo:rustc-link-lib={}=mfx", "dylib");
+    println!("cargo:rustc-link-lib={}=openmpt", "dylib");
+    println!("cargo:rustc-link-lib={}=ssl", "dylib");
+    println!("cargo:rustc-link-lib={}=crypto", "dylib");
+    // println!("cargo:rustc-link-lib={}=xml2", ffmpeg_link_kind);
+    // println!("cargo:rustc-link-lib={}=twolame", ffmpeg_link_kind); 
+    // println!("cargo:rustc-link-lib={}=aom", ffmpeg_link_kind); 
 }
