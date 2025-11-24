@@ -201,6 +201,6 @@ fn linux() {
     println!("cargo:rustc-link-lib={}=openmpt", "dylib");
     println!("cargo:rustc-link-lib={}=ssl", "dylib");
     println!("cargo:rustc-link-lib={}=crypto", "dylib");
-    println!("cargo:rustc-link-lib={}=opencl", "dylib");
+    println!("cargo:rustc-link-lib={}=OpenCL", "dylib");
 
 }
