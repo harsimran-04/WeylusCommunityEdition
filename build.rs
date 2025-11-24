@@ -113,7 +113,9 @@ fn main() {
         } else {
             "static"
         };
-    // println!("cargo:rustc-link-lib={}=z", ffmpeg_link_kind);
+    println!("cargo:rustc-link-lib={}=z", "dylib");
+    println!("cargo:rustc-link-lib={}=vdpau", "dylib");
+     println!("cargo:rustc-link-lib={}=gcrypt", "dylib");
     // println!("cargo:rustc-link-lib={}=xml2", ffmpeg_link_kind);
     // println!("cargo:rustc-link-lib={}=twolame", ffmpeg_link_kind); 
     // println!("cargo:rustc-link-lib={}=aom", ffmpeg_link_kind); 
