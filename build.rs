@@ -113,9 +113,10 @@ fn main() {
         } else {
             "static"
         };
-    println!("cargo:rustc-link-lib={}=z", ffmpeg_link_kind);
-    println!("cargo:rustc-link-lib={}=xml2", ffmpeg_link_kind);
-    println!("cargo:rustc-link-lib={}=twolame", ffmpeg_link_kind); 
+    // println!("cargo:rustc-link-lib={}=z", ffmpeg_link_kind);
+    // println!("cargo:rustc-link-lib={}=xml2", ffmpeg_link_kind);
+    // println!("cargo:rustc-link-lib={}=twolame", ffmpeg_link_kind); 
+    // println!("cargo:rustc-link-lib={}=aom", ffmpeg_link_kind); 
     println!("cargo:rustc-link-lib={}=avdevice", ffmpeg_link_kind);
     println!("cargo:rustc-link-lib={}=avformat", ffmpeg_link_kind);
     println!("cargo:rustc-link-lib={}=avfilter", ffmpeg_link_kind);
