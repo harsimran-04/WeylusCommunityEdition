@@ -13,7 +13,8 @@ jobs:
     runs-on: windows-2022
     steps:
       - uses: actions/checkout@v3
-      - uses: actions-rust-lang/setup-rust-toolchain@v2
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
       - name: Build
         run: |
           choco install -y --no-progress nodejs.install
@@ -79,7 +80,7 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ hashFiles('Cargo.lock') }}
       - name: Download deps
         run: |
-          npm install -g typescript
+          npm install -g typescript@5.5.4
           brew install nasm
           cargo install cargo-bundle
         shell: bash
