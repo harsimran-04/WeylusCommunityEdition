@@ -18,7 +18,7 @@ jobs:
       - name: Build
         run: |
           choco install -y --no-progress nodejs.install
-          npm install -g typescript
+          npm install -g typescript@5.5.4
           choco install -y --no-progress 7zip
           Invoke-WebRequest -Uri https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-8.0.1-full_build-shared.7z -OutFile ffmpeg.7z
           7z x ffmpeg.7z
