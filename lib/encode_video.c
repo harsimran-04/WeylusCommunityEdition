@@ -297,7 +297,7 @@ void init_scaler(
 			snprintf(
 				args,
 				sizeof(args),
-				"scale=w=%d:h=%d:flags=fast_bilinear,hwupload",
+				"scale=w=%d:h=%d:flags=fast_bilinear,format=nv12,hwupload",
 				width_out,
 				height_out);
 		else
@@ -313,26 +313,141 @@ void init_scaler(
 		snprintf(args, sizeof(args), "scale=w=%d:h=%d:flags=fast_bilinear", width_out, height_out);
 	}
 
-	if ((ret = avfilter_graph_parse_ptr(ctx->filter_graph_scale, args, &inputs, &outputs, NULL)) <
-		0)
-	{
-		log_warn("Failed to parse filter");
-		goto end;
-	}
+	log_debug("Filter graph string: %s", args);
 
-	for (unsigned int i = 0; i < ctx->filter_graph_scale->nb_filters; i++)
+	if (!hw_device_ctx)
 	{
-		AVFilterContext* filt = ctx->filter_graph_scale->filters[i];
-		if (strcmp(filt->filter->name, "hwupload") == 0)
+		if ((ret = avfilter_graph_parse_ptr(ctx->filter_graph_scale, args, &inputs, &outputs, NULL)) <
+			0)
 		{
-			filt->hw_device_ctx = av_buffer_ref(hw_device_ctx);
+			log_warn("Failed to parse filter: %s", args);
+			goto end;
+		}
+		if ((ret = avfilter_graph_config(ctx->filter_graph_scale, NULL)) < 0)
+		{
+			log_warn("Failed to configure filter graph: %s", av_err2str(ret));
+			goto end;
 		}
 	}
-
-	if ((ret = avfilter_graph_config(ctx->filter_graph_scale, NULL)) < 0)
+	else
 	{
-		log_warn("Failed to configure filter graph");
-		goto end;
+		AVFilterGraphSegment* seg = NULL;
+		AVFilterInOut* parsed_inputs = NULL;
+		AVFilterInOut* parsed_outputs = NULL;
+
+		char labeled_args[512];
+		snprintf(labeled_args, sizeof(labeled_args), "[in]%s[out]", args);
+
+		if ((ret = avfilter_graph_segment_parse(ctx->filter_graph_scale, labeled_args, 0, &seg)) < 0)
+		{
+			log_warn("Failed to parse filter segment: %s", labeled_args);
+			goto end;
+		}
+
+		if ((ret = avfilter_graph_segment_create_filters(seg, 0)) < 0)
+		{
+			log_warn("Failed to create filters in segment: %s", av_err2str(ret));
+			avfilter_graph_segment_free(&seg);
+			goto end;
+		}
+
+		for (size_t ci = 0; ci < seg->nb_chains; ci++)
+		{
+			for (size_t fi = 0; fi < seg->chains[ci]->nb_filters; fi++)
+			{
+				AVFilterParams* fparams = seg->chains[ci]->filters[fi];
+				if (!fparams || !fparams->filter)
+					continue;
+
+				const char* fname = fparams->filter->filter ? fparams->filter->filter->name : NULL;
+				if (fname && (strcmp(fname, "hwupload") == 0 ||
+							  strcmp(fname, "hwupload_cuda") == 0 ||
+							  strcmp(fname, "scale_vaapi") == 0 ||
+							  strcmp(fname, "scale_cuda") == 0 ||
+							  strcmp(fname, "scale_npp") == 0))
+				{
+					fparams->filter->hw_device_ctx = av_buffer_ref(hw_device_ctx);
+				}
+			}
+		}
+
+		if ((ret = avfilter_graph_segment_apply_opts(seg, 0)) < 0)
+		{
+			log_warn("Failed to apply filter segment options: %s", av_err2str(ret));
+			avfilter_graph_segment_free(&seg);
+			goto end;
+		}
+
+		if ((ret = avfilter_graph_segment_init(seg, 0)) < 0)
+		{
+			log_warn("Failed to init filter segment: %s", av_err2str(ret));
+			avfilter_graph_segment_free(&seg);
+			goto end;
+		}
+
+		if ((ret = avfilter_graph_segment_link(seg, 0, &parsed_inputs, &parsed_outputs)) < 0)
+		{
+			log_warn("Failed to link filter segment: %s", av_err2str(ret));
+			avfilter_graph_segment_free(&seg);
+			goto end;
+		}
+
+		avfilter_graph_segment_free(&seg);
+
+		AVFilterInOut* cur;
+		while (parsed_inputs)
+		{
+			cur = parsed_inputs;
+			parsed_inputs = cur->next;
+			cur->next = NULL;
+			if (cur->name && strcmp(cur->name, "in") == 0)
+			{
+				ret = avfilter_link(ctx->buffersrc_scale_ctx, 0, cur->filter_ctx, cur->pad_idx);
+			}
+			else
+			{
+				log_warn(
+					"Unexpected open input pad: %s",
+					cur->name ? cur->name : "(null)");
+				ret = AVERROR(EINVAL);
+			}
+			avfilter_inout_free(&cur);
+			if (ret < 0)
+			{
+				log_warn("Failed to link input pad: %s", av_err2str(ret));
+				goto end;
+			}
+		}
+
+		while (parsed_outputs)
+		{
+			cur = parsed_outputs;
+			parsed_outputs = cur->next;
+			cur->next = NULL;
+			if (cur->name && strcmp(cur->name, "out") == 0)
+			{
+				ret = avfilter_link(cur->filter_ctx, cur->pad_idx, ctx->buffersink_scale_ctx, 0);
+			}
+			else
+			{
+				log_warn(
+					"Unexpected open output pad: %s",
+					cur->name ? cur->name : "(null)");
+				ret = AVERROR(EINVAL);
+			}
+			avfilter_inout_free(&cur);
+			if (ret < 0)
+			{
+				log_warn("Failed to link output pad: %s", av_err2str(ret));
+				goto end;
+			}
+		}
+
+		if ((ret = avfilter_graph_config(ctx->filter_graph_scale, NULL)) < 0)
+		{
+			log_warn("Failed to configure filter graph: %s", av_err2str(ret));
+			goto end;
+		}
 	}
 
 end:
