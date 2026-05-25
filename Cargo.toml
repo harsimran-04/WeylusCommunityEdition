@@ -1,6 +1,6 @@
 [package]
 name = "weylus"
-version = "2026.5.21"
+version = "2026.5.22"
 authors = ["HMH <henry@freedesk.net>"]
 license = "AGPL-3.0-or-later"
 edition = "2021"

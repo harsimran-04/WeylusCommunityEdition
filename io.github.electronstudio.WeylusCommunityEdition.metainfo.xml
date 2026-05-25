@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <component type="desktop-application">
     <id>io.github.electronstudio.WeylusCommunityEdition</id>
 
     <name>Weylus Community Edition</name>
-    <summary>Use your tablet as graphic tablet/touch screen on your computer</summary>
+    <summary
+    >Use your tablet as graphic tablet/touch screen on your computer</summary>
 
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>AGPL-3.0-or-later</project_license>
@@ -24,7 +25,8 @@
                 <p>Send keyboard input using physical keyboards</p>
                 <p>Hardware accelerated video encoding</p>
                 <p>Support for a stylus/pen (supports pressure and tilt)</p>
-                <p>Multi-touch: Try it with software that supports multi-touch, like Krita, and see for yourself!</p>
+                <p
+        >Multi-touch: Try it with software that supports multi-touch, like Krita, and see for yourself!</p>
                 <p>Capturing specific windows and only drawing to them</p>
                 <p>Faster screen mirroring</p>
                 <p>Tablet as second screen</p>
@@ -32,22 +34,37 @@
     </description>
     <screenshots>
         <screenshot type="default">
-            <image>https://raw.githubusercontent.com/electronstudio2/Weylus/community-edition-patches/screenshot.png</image>
+            <image
+            >https://raw.githubusercontent.com/electronstudio2/Weylus/community-edition-patches/screenshot.png</image>
             <caption>The one and only window</caption>
         </screenshot>
     </screenshots>
 
-    <url type="homepage">https://github.com/electronstudio/WeylusCommunityEdition</url>
+    <url
+        type="homepage"
+    >https://github.com/electronstudio/WeylusCommunityEdition</url>
 
     <content_rating type="oars-1.1" />
 
-    <launchable type="desktop-id">io.github.electronstudio.WeylusCommunityEdition.desktop</launchable>
+    <launchable
+        type="desktop-id"
+    >io.github.electronstudio.WeylusCommunityEdition.desktop</launchable>
     <developer id="io.github.electronstudio">
         <name>H-M-H</name>
     </developer>
 
     <releases>
-        <release version="2025.11.4" date="2025.11.4">
+        <release version="2026.5.22" date="2026-5-22">
+            <description>
+                <p>Minor build improvements.</p>
+            </description>
+        </release>
+        <release version="2026.5.21" date="2026-5-21">
+            <description>
+                <p>Minor fix from upstream.</p>
+            </description>
+        </release>
+        <release version="2025.11.4" date="2025-11-4">
             <description>
                 <p>Lots of fixes from upstream.</p>
             </description>
