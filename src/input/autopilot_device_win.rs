@@ -7,7 +7,8 @@ use tracing::warn;
 use crate::input::autopilot_device::AutoPilotDevice;
 use crate::input::device::{InputDevice, InputDeviceType};
 use crate::protocol::{
-    Button, KeyboardEvent, PointerEvent, PointerEventType, PointerType, WheelEvent,
+    Button, KeyboardEvent, KeyboardEventType, PointerEvent, PointerEventType, PointerType,
+    WheelEvent,
 };
 
 use crate::capturable::{Capturable, Geometry};
@@ -33,6 +34,134 @@ impl WindowsInput {
             }
         }
     }
+}
+
+fn map_keyboard_event_code(code: &str) -> Option<u8> {
+    let key = match code {
+        "KeyA" => b'A',
+        "KeyB" => b'B',
+        "KeyC" => b'C',
+        "KeyD" => b'D',
+        "KeyE" => b'E',
+        "KeyF" => b'F',
+        "KeyG" => b'G',
+        "KeyH" => b'H',
+        "KeyI" => b'I',
+        "KeyJ" => b'J',
+        "KeyK" => b'K',
+        "KeyL" => b'L',
+        "KeyM" => b'M',
+        "KeyN" => b'N',
+        "KeyO" => b'O',
+        "KeyP" => b'P',
+        "KeyQ" => b'Q',
+        "KeyR" => b'R',
+        "KeyS" => b'S',
+        "KeyT" => b'T',
+        "KeyU" => b'U',
+        "KeyV" => b'V',
+        "KeyW" => b'W',
+        "KeyX" => b'X',
+        "KeyY" => b'Y',
+        "KeyZ" => b'Z',
+        "Digit0" => b'0',
+        "Digit1" => b'1',
+        "Digit2" => b'2',
+        "Digit3" => b'3',
+        "Digit4" => b'4',
+        "Digit5" => b'5',
+        "Digit6" => b'6',
+        "Digit7" => b'7',
+        "Digit8" => b'8',
+        "Digit9" => b'9',
+        "Escape" => VK_ESCAPE as u8,
+        "Enter" => VK_RETURN as u8,
+        "Backspace" => VK_BACK as u8,
+        "Tab" => VK_TAB as u8,
+        "Space" => VK_SPACE as u8,
+        "CapsLock" => VK_CAPITAL as u8,
+        "F1" => VK_F1 as u8,
+        "F2" => VK_F2 as u8,
+        "F3" => VK_F3 as u8,
+        "F4" => VK_F4 as u8,
+        "F5" => VK_F5 as u8,
+        "F6" => VK_F6 as u8,
+        "F7" => VK_F7 as u8,
+        "F8" => VK_F8 as u8,
+        "F9" => VK_F9 as u8,
+        "F10" => VK_F10 as u8,
+        "F11" => VK_F11 as u8,
+        "F12" => VK_F12 as u8,
+        "F13" => VK_F13 as u8,
+        "F14" => VK_F14 as u8,
+        "F15" => VK_F15 as u8,
+        "F16" => VK_F16 as u8,
+        "F17" => VK_F17 as u8,
+        "F18" => VK_F18 as u8,
+        "F19" => VK_F19 as u8,
+        "F20" => VK_F20 as u8,
+        "F21" => VK_F21 as u8,
+        "F22" => VK_F22 as u8,
+        "F23" => VK_F23 as u8,
+        "F24" => VK_F24 as u8,
+        "Home" => VK_HOME as u8,
+        "ArrowUp" => VK_UP as u8,
+        "PageUp" => VK_PRIOR as u8,
+        "ArrowLeft" => VK_LEFT as u8,
+        "ArrowRight" => VK_RIGHT as u8,
+        "End" => VK_END as u8,
+        "ArrowDown" => VK_DOWN as u8,
+        "PageDown" => VK_NEXT as u8,
+        "Insert" => VK_INSERT as u8,
+        "Delete" => VK_DELETE as u8,
+        "PrintScreen" => VK_SNAPSHOT as u8,
+        "ScrollLock" => VK_SCROLL as u8,
+        "Pause" => VK_PAUSE as u8,
+        "ControlLeft" => VK_LCONTROL as u8,
+        "ControlRight" => VK_RCONTROL as u8,
+        "AltLeft" => VK_LMENU as u8,
+        "AltRight" => VK_RMENU as u8,
+        "MetaLeft" => VK_LWIN as u8,
+        "MetaRight" => VK_RWIN as u8,
+        "ShiftLeft" => VK_LSHIFT as u8,
+        "ShiftRight" => VK_RSHIFT as u8,
+        "Minus" => VK_OEM_MINUS as u8,
+        "Equal" => VK_OEM_PLUS as u8,
+        "BracketLeft" => VK_OEM_4 as u8,
+        "BracketRight" => VK_OEM_6 as u8,
+        "Semicolon" => VK_OEM_1 as u8,
+        "Quote" => VK_OEM_7 as u8,
+        "Backquote" => VK_OEM_3 as u8,
+        "Backslash" => VK_OEM_5 as u8,
+        "Comma" => VK_OEM_COMMA as u8,
+        "Period" => VK_OEM_PERIOD as u8,
+        "Slash" => VK_OEM_2 as u8,
+        "Numpad0" => VK_NUMPAD0 as u8,
+        "Numpad1" => VK_NUMPAD1 as u8,
+        "Numpad2" => VK_NUMPAD2 as u8,
+        "Numpad3" => VK_NUMPAD3 as u8,
+        "Numpad4" => VK_NUMPAD4 as u8,
+        "Numpad5" => VK_NUMPAD5 as u8,
+        "Numpad6" => VK_NUMPAD6 as u8,
+        "Numpad7" => VK_NUMPAD7 as u8,
+        "Numpad8" => VK_NUMPAD8 as u8,
+        "Numpad9" => VK_NUMPAD9 as u8,
+        "NumpadDecimal" => VK_DECIMAL as u8,
+        "NumLock" => VK_NUMLOCK as u8,
+        "NumpadDivide" => VK_DIVIDE as u8,
+        "NumpadMultiply" => VK_MULTIPLY as u8,
+        "NumpadSubtract" => VK_SUBTRACT as u8,
+        "NumpadAdd" => VK_ADD as u8,
+        "NumpadEnter" => VK_RETURN as u8,
+        _ => return None,
+    };
+
+    Some(key)
+}
+
+fn toggle_virtual_key(vk: u8, down: bool) {
+    let flags = if down { 0 } else { KEYEVENTF_KEYUP };
+    unsafe { keybd_event(vk, 0, flags, 0) };
 }
 
 impl InputDevice for WindowsInput {
@@ -214,7 +343,15 @@ impl InputDevice for WindowsInput {
     }
 
     fn send_keyboard_event(&mut self, event: &KeyboardEvent) {
-        self.autopilot_device.send_keyboard_event(event);
+        if let Some(key) = map_keyboard_event_code(&event.code) {
+            let down = match event.event_type {
+                KeyboardEventType::UP => false,
+                KeyboardEventType::DOWN | KeyboardEventType::REPEAT => true,
+            };
+            toggle_virtual_key(key, down);
+        } else {
+            self.autopilot_device.send_keyboard_event(event);
+        }
     }
 
     fn set_capturable(&mut self, capturable: Box<dyn Capturable>) {

@@ -885,19 +885,21 @@ impl InputDevice for UInputDevice {
             return;
         }
 
-        if event.ctrl {
+        let apply_modifier_state = !matches!(event.event_type, KeyboardEventType::UP);
+
+        if event.ctrl && apply_modifier_state {
             self.send(self.keyboard_fd, ET_KEY, KEY_LEFTCTRL, state);
             self.send(self.keyboard_fd, ET_SYNC, EC_SYNC_REPORT, 0);
         }
-        if event.alt {
+        if event.alt && apply_modifier_state {
             self.send(self.keyboard_fd, ET_KEY, KEY_LEFTALT, state);
             self.send(self.keyboard_fd, ET_SYNC, EC_SYNC_REPORT, 0);
         }
-        if event.meta {
+        if event.meta && apply_modifier_state {
             self.send(self.keyboard_fd, ET_KEY, KEY_LEFTMETA, state);
             self.send(self.keyboard_fd, ET_SYNC, EC_SYNC_REPORT, 0);
         }
-        if event.shift {
+        if event.shift && apply_modifier_state {
             self.send(self.keyboard_fd, ET_KEY, KEY_LEFTSHIFT, state);
             self.send(self.keyboard_fd, ET_SYNC, EC_SYNC_REPORT, 0);
         }
